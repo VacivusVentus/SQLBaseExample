@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>serverSetup.qml</file>
+    </qresource>
+    <qresource prefix="/locale/">
+         <file>taskbase_ru.qm</file>
+    </qresource>
+</RCC>
