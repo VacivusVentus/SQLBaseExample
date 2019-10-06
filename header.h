@@ -406,6 +406,82 @@ struct AddTaskInf
     }
 };
 
+struct AddUserInf
+{
+    DBOperation operation;
+    QString adminpass;
+    QString fio;
+    QString login;
+    QString pass;
+    AddUserInf()
+    {
+        operation = DBOperation::ADD_USER;
+    }
+    void toBytes(QByteArray &bArray)
+    {
+        bArray.clear();
+        char *magicHead = getMH();
+        bArray.append(magicHead, strlen(magicHead));
+        unsigned int op = operation;
+        bArray.append((char*)&op, 4);
+        QByteArray sbytes = adminpass.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = fio.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = login.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = pass.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+    }
+    AddUserInf(QByteArray &ba)
+    {
+        operation = DBOperation::ADD_USER;
+        operation = DBOperation::ADD_TASK;
+        char *magicHead = getMH();
+        quint32 dpos = strlen(magicHead) + 4;
+        char *data = &(ba.data())[dpos];
+        dpos = 4;
+        quint32 op = *(data);
+        QByteArray part;
+        part.clear();
+        part.append(&data[dpos], op);
+        adminpass = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        fio = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        login = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        pass = QString::fromUtf8(part);
+        dpos += op;
+    }
+};
+
 inline DBOperation testPackege(QByteArray &ba)
 {
     char *magicHead = getMH();

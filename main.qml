@@ -11,6 +11,9 @@ Window {
 
     ClientInterface {
         id: client
+        onAddTaskTofield:
+        {
+        }
     }
 
     Rectangle {
