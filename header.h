@@ -5,7 +5,8 @@
 #include <QTranslator>
 
 enum DBOperation {CONNECT = 0x0000, CLOSECONNECT = 0x0001, GET_TASKS = 0x0002, TASK_LINE = 0x0003, NORE = 0xFFFFFFFF,
-                  ADD_TASK = 0x0004, USER_LINE = 0x0005, ADD_USER = 0x0006, TASK_USER_LINE = 0x0007};
+                  ADD_TASK = 0x0004, USER_LINE = 0x0005, ADD_USER = 0x0006, TASK_USER_LINE = 0x0007,
+                  UPDATE_TASK = 0x0008, UPDATE_USER = 0x0009, UPDATE_REPORT = 0x000A};
 
 enum DBCause {COMPLETE = 0x0000, BAD_PACKAGE = 0x0001, ERR_USER = 0x0002, ERR_TASK = 0x0003, LOGIN_PASSWORD = 0x0004};
 
@@ -243,13 +244,14 @@ struct UserInformation {
         part.append(&data[dpos], op);
         report = QString::fromUtf8(part);
         dpos += op;
+    }
 };
 
 struct TaskUserInformation {
     DBOperation operation;
     QString fio;
     QString login;
-    quint32 idtask;
+    quint8 isActive;
     QString usertask;
     QString report;
     TaskUserInformation()
@@ -273,7 +275,7 @@ struct TaskUserInformation {
         bArray.append((char*)&op, 4);
         bArray.append(sbytes);
 
-        bArray.append((char*)&idtask, 4);
+        bArray.append((isActive) ? 1 : 0);
 
         sbytes = usertask.toUtf8();
         op = sbytes.size();
@@ -306,8 +308,8 @@ struct TaskUserInformation {
         login = QString::fromUtf8(part);
         dpos += op;
         //-------------
-        idtask = *((quint32*)&data[dpos]);
-        dpos += 4;
+        isActive = *((quint8*)&data[dpos]);
+        dpos++;
         //--------------
         op = *(&data[dpos]);
         dpos += 4;
@@ -325,6 +327,84 @@ struct TaskUserInformation {
     }
 };
 
+struct AddTaskInf
+{
+    DBOperation operation;
+    QString task, describe;
+    QString begDate, endDate;
+    QString adminpasswrd;
+    AddTaskInf()
+    {
+        operation = DBOperation::ADD_TASK;
+    }
+    void toBytes(QByteArray &bArray)
+    {
+        bArray.clear();
+        char *magicHead = getMH();
+        bArray.append(magicHead, strlen(magicHead));
+        unsigned int op = operation;
+        bArray.append((char*)&op, 4);
+        QByteArray sbytes = task.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = describe.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = begDate.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = endDate.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+
+        sbytes = adminpasswrd.toUtf8();
+        op = sbytes.size();
+        bArray.append((char*)&op, 4);
+        bArray.append(sbytes);
+    }
+    AddTaskInf(QByteArray &ba)
+    {
+        operation = DBOperation::ADD_TASK;
+        char *magicHead = getMH();
+        quint32 dpos = strlen(magicHead) + 4;
+        char *data = &(ba.data())[dpos];
+        dpos = 4;
+        quint32 op = *(data);
+        QByteArray part;
+        part.clear();
+        part.append(&data[dpos], op);
+        task = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        describe = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        begDate = QString::fromUtf8(part);
+        dpos += op;
+        //--------------
+        op = *(&data[dpos]);
+        dpos += 4;
+        part.clear();
+        part.append(&data[dpos], op);
+        endDate = QString::fromUtf8(part);
+        dpos += op;
+    }
+};
 
 inline DBOperation testPackege(QByteArray &ba)
 {
