@@ -730,7 +730,7 @@ struct UpdateReportInfo
     }
 };
 //********************************************************************************
-inline DBOperation testPackege(QByteArray &ba)
+inline DBOperation testPackege(QByteArray &ba) //Определение пакета
 {
     char *magicHead = getMH();
     DBOperation operation = DBOperation::NORE;

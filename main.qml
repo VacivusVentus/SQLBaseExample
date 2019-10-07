@@ -8,11 +8,25 @@ Window {
     width: 800
     height: 600
     title: qsTr("Task base")
+    id:root
+
+    property TaskField taskField: null
+
+    function getTaskList()
+    {
+        console.log("Get task list")
+    }
 
     ClientInterface {
         id: client
         onAddTaskTofield:
         {
+        }
+        onInitTaskField:
+        {
+            connectField.destroy()
+            taskField = Qt.createQmlObject("TaskField{}", root, "comp")
+            TaskField.client = client
         }
     }
 

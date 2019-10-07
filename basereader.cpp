@@ -74,6 +74,12 @@ void BaseReader::readSocket()
             disconnect.toBytes(berr);
             sock->write(berr);
         }
+        else if (operation == DBOperation::CONNECT)
+        {
+            DBConnect dbCon(ba);
+            bool ret = query.exec("select count(*) from Users where login=" + dbCon.login +
+                       "and password=" + dbCon.password);
+        }
     }
 }
 

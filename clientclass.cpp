@@ -1,9 +1,9 @@
 #include "clientclass.h"
 #include <QHostAddress>
-#include "header.h"
 
 ClientClass::ClientClass(QObject *parent) : QObject(parent)
 {
+    taskInfList.clear();
 }
 
 void ClientClass::connectToBase(QString ip, QString port, QString login, QString password)
@@ -22,6 +22,7 @@ void ClientClass::connectToBase(QString ip, QString port, QString login, QString
     db.login = login;
     db.password = passwrd;
     db.toBytes(sendBytes);
+    emit initTaskField();
 }
 
 void ClientClass::fillSocket()
@@ -37,6 +38,8 @@ void ClientClass::fillSocket()
             clientsocket = nullptr;
         } else if (operation == DBOperation::TASK_LINE)
         {
+            TaskInformation taskInform(ba);
+            taskInfList.append(ba);
         }
     }
 }

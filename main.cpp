@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     {
         //if (QString(argv[1]) == "--server") //запускаем сервер
         {
-            const QUrl url(QStringLiteral("qrc:/serverSetup.qml"));
+            const QUrl url(QStringLiteral("qrc:/qml/serverSetup.qml"));
             QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                              &app, [url](QObject *obj, const QUrl &objUrl) {
                 if (!obj && url == objUrl)
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
            // return app.exec();
         }
     } //иначе запускаем клиентскую прграмму
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
