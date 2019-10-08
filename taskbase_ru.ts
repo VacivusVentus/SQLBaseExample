@@ -6,22 +6,22 @@
     <message>
         <location filename="header.h" line="38"/>
         <source>Complete operation</source>
-        <translation type="unfinished"></translation>
+        <translation>Операция успешно завершена</translation>
     </message>
     <message>
         <location filename="header.h" line="39"/>
         <source>Bad package</source>
-        <translation type="unfinished"></translation>
+        <translation>Неверный формат пакета</translation>
     </message>
     <message>
         <location filename="header.h" line="40"/>
         <source>Couldn&apos;t find the user</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найден пользователь</translation>
     </message>
     <message>
         <location filename="header.h" line="41"/>
         <source>Couldn&apos;t find the task</source>
-        <translation type="unfinished"></translation>
+        <translation>Не найдена задача</translation>
     </message>
     <message>
         <location filename="header.h" line="42"/>
