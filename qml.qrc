@@ -4,6 +4,7 @@
         <file>serverSetup.qml</file>
         <file>TaskElement.qml</file>
         <file>TaskField.qml</file>
+        <file>NotifyTag.qml</file>
     </qresource>
     <qresource prefix="/locale">
         <file>taskbase_ru.qm</file>

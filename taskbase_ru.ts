@@ -4,7 +4,27 @@
 <context>
     <name>QTranslator</name>
     <message>
-        <location filename="header.h" line="36"/>
+        <location filename="header.h" line="38"/>
+        <source>Complete operation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="header.h" line="39"/>
+        <source>Bad package</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="header.h" line="40"/>
+        <source>Couldn&apos;t find the user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="header.h" line="41"/>
+        <source>Couldn&apos;t find the task</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="header.h" line="42"/>
         <source>Unknown</source>
         <translation>Неизвестная</translation>
     </message>
@@ -18,32 +38,32 @@
 </translation>
     </message>
     <message>
-        <location filename="main.qml" line="29"/>
+        <location filename="main.qml" line="47"/>
         <source>IP of server:</source>
         <translation>IP сервера:</translation>
     </message>
     <message>
-        <location filename="main.qml" line="49"/>
+        <location filename="main.qml" line="67"/>
         <source>Port:</source>
         <translation>Порт:</translation>
     </message>
     <message>
-        <location filename="main.qml" line="68"/>
+        <location filename="main.qml" line="86"/>
         <source>Login:</source>
         <translation>Пользователь:</translation>
     </message>
     <message>
-        <location filename="main.qml" line="86"/>
+        <location filename="main.qml" line="104"/>
         <source>Password:</source>
         <translation>Пароль:</translation>
     </message>
     <message>
-        <location filename="main.qml" line="101"/>
+        <location filename="main.qml" line="119"/>
         <source>Connect</source>
         <translation>Открыть соединения</translation>
     </message>
     <message>
-        <location filename="main.qml" line="107"/>
+        <location filename="main.qml" line="125"/>
         <source>Use local</source>
         <translation>Локальное соединения</translation>
     </message>

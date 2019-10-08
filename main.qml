@@ -11,6 +11,7 @@ Window {
     id:root
 
     property TaskField taskField: null
+    property NotifyTag notiTag: null
 
     function getTaskList()
     {
@@ -21,13 +22,35 @@ Window {
         id: client
         onAddTaskTofield:
         {
+            if (taskField==null)
+            {
+                console.log(qsTr("Didn't initial task field"))
+                Qt.quit()
+            } else
+            {
+                taskField.addTask(idtask, task, describe, bdate + '/' + edate, progrss)
+            }
         }
         onInitTaskField:
         {
             connectField.destroy()
             taskField = Qt.createQmlObject("TaskField{}", root, "comp")
             taskField.client = client
-            for (let i = 0; i < 1000;i++)taskField.addTask(i,'Task' + i, 'About'+i,'25 days',0)
+            client.getTaskList()
+        }
+        onPrintLog: console.log(log)
+        onShowNtifiy:
+        {
+            if (notiTag != null)
+            {
+                notiTag.destroy()
+                notiTag = null
+            }
+            console.log("show notify")
+            notiTag = Qt.createQmlObject('NotifyTag {}', root, 'noti')
+            notiTag.width = root.width;
+            notiTag.height = 30
+            notiTag.message = msg
         }
     }
 

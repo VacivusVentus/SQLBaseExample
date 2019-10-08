@@ -19,6 +19,7 @@ Window {
                 fieldSetting.destroy()
             }
         }
+        onQmlLog: console.log(msg)
     }
 
     Rectangle

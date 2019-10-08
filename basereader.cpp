@@ -8,6 +8,7 @@ BaseReader::BaseReader()
     database = QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName("tasks.db");
     server = new  QTcpServer(this);
+    emit qmlLog("Init server");
 }
 
 BaseReader::~BaseReader()
@@ -17,6 +18,7 @@ BaseReader::~BaseReader()
 
 void BaseReader::initServer(QString adminpass, QString portlisten)
 {
+
     adminPasswd = adminpass;
     unsigned short port = portlisten.toUInt() & 0xFFFF;
     bool init = server->listen(QHostAddress::LocalHost, port);
@@ -66,6 +68,7 @@ void BaseReader::readSocket()
     for (;sock->bytesAvailable() > 0;)  {
         QByteArray ba = sock->readAll();
         DBOperation operation = testPackege(ba);
+        emit qmlLog("datagram from client");
         if (operation == DBOperation::NORE)
         {
             DBDisconnect disconnect;
@@ -87,4 +90,5 @@ void BaseReader::disconnectSocket()
 {
     QTcpSocket *sock = static_cast<QTcpSocket*>(sender());
     sock->close();
+    emit qmlLog("close socket");
 }
