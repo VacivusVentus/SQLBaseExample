@@ -8,7 +8,8 @@ enum DBOperation {CONNECT = 0x0000, CLOSECONNECT = 0x0001, GET_TASKS = 0x0002, T
                   ADD_TASK = 0x0004, USER_LINE = 0x0005, ADD_USER = 0x0006, TASK_USER_LINE = 0x0007,
                   UPDATE_TASK = 0x0008, UPDATE_USER_TASK = 0x0009, UPDATE_REPORT = 0x000A};
 
-enum DBCause {COMPLETE = 0x0000, BAD_PACKAGE = 0x0001, ERR_USER = 0x0002, ERR_TASK = 0x0003, LOGIN_PASSWORD = 0x0004};
+enum DBCause {COMPLETE_CONNECT = 0x0000, BAD_PACKAGE = 0x0001, ERR_USER = 0x0002, ERR_TASK = 0x0003, LOGIN_PASSWORD = 0x0004,
+             BAD_DB = 0xF000};
 
 inline char *getMH()
 {
@@ -35,10 +36,11 @@ struct DBDisconnect {
     }
     QString getCauseToClose()
     {
-        if (dbcause == DBCause::COMPLETE) return QTranslator::tr("Complete operation");
+        if (dbcause == DBCause::BAD_DB) return QTranslator::tr("Error of SQLite");
         if (dbcause == DBCause::BAD_PACKAGE) return QTranslator::tr("Bad package");
         if (dbcause == DBCause::ERR_USER) return QTranslator::tr("Couldn't find the user");
         if (dbcause == DBCause::ERR_TASK) return QTranslator::tr("Couldn't find the task");
+        if (dbcause == DBCause::LOGIN_PASSWORD) return QTranslator::tr("There is not user in db or password is incorrect");
         return QTranslator::tr("Unknown");
     }
 

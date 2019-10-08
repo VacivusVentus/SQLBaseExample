@@ -64,7 +64,7 @@ void BaseReader::newClient()
 
 void BaseReader::readSocket()
 {
-    QTcpSocket *sock = static_cast<QTcpSocket*>(sender());
+    QTcpSocket *sock = (QTcpSocket*)sender();
     for (;sock->bytesAvailable() > 0;)  {
         QByteArray ba = sock->readAll();
         DBOperation operation = testPackege(ba);
@@ -82,6 +82,17 @@ void BaseReader::readSocket()
             DBConnect dbCon(ba);
             bool ret = query.exec("select count(*) from Users where login=" + dbCon.login +
                        "and password=" + dbCon.password);
+            DBDisconnect dis;
+            if (!ret)
+            {
+                dis.dbcause = DBCause::BAD_DB;
+            } else if (!query.next())
+            {
+                dis.dbcause = DBCause::LOGIN_PASSWORD;
+            } else dis.dbcause = DBCause::COMPLETE_CONNECT;
+            QByteArray berr;
+            dis.toBytes(berr);
+            sock->write(berr);
         }
     }
 }

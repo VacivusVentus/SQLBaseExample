@@ -60,9 +60,18 @@ void ClientClass::fillSocket()
         DBOperation operation = testPackege(ba);
         if (operation == DBOperation::CLOSECONNECT)
         {
+            DBDisconnect dis(ba);
+            if (dis.dbcause == DBCause::COMPLETE_CONNECT)
+            {
+                 emit initTaskField();
+            } else if  (dis.dbcause == DBCause::BAD_DB || dis.dbcause == DBCause::LOGIN_PASSWORD || dis.dbcause == DBCause::BAD_PACKAGE)
+            {
+                emit showNtifiy(dis.getCauseToClose());
+            } else emit showNtifiy(QString::number(dis.dbcause));
+            timer->stop();
+            delete timer;
+            timer = nullptr;
             clientsocket->close();
-            delete  clientsocket;
-            clientsocket = nullptr;
         } else if (operation == DBOperation::TASK_LINE)
         {
             TaskInformation taskInform(ba);
