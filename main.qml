@@ -26,7 +26,8 @@ Window {
         {
             connectField.destroy()
             taskField = Qt.createQmlObject("TaskField{}", root, "comp")
-            TaskField.client = client
+            taskField.client = client
+            for (let i = 0; i < 1000;i++)taskField.addTask(i,'Task' + i, 'About'+i,'25 days',0)
         }
     }
 

@@ -54,3 +54,6 @@ void ClientClass::sendToSocket()
      }
      sendBytes.clear();
 }
+void ClientClass::openTask(quint32 idtask)
+{
+}

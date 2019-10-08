@@ -22,6 +22,7 @@ public slots:
     void connectToBase(QString ip, QString port, QString login, QString password);
     void fillSocket();
     void sendToSocket();
+    void openTask(quint32 idtask);
 
 private:
     QTcpSocket *clientsocket;
