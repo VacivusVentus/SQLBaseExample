@@ -40,6 +40,8 @@ void ClientClass::fillSocket()
         {
             TaskInformation taskInform(ba);
             taskInfList.append(ba);
+            emit addTaskTofield(taskInform.idtask, taskInform.task, taskInform.descibe,
+                                taskInform.startDate, taskInform.endDate, taskInform.progress);
         }
     }
 }

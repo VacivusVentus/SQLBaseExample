@@ -100,6 +100,7 @@ struct DBConnect{
 //********************************************************************************
 struct TaskInformation {
     DBOperation operation;
+    quint32 idtask;
     QString task;
     QString descibe;
     QString startDate, endDate;
@@ -115,6 +116,8 @@ struct TaskInformation {
         bArray.append(magicHead, strlen(magicHead));
         unsigned int op = operation;
         bArray.append((char*)&op, 4);
+
+        bArray.append((char*)&idtask, sizeof idtask);
 
         QByteArray sbytes = task.toUtf8();
         op = sbytes.size();
@@ -146,6 +149,8 @@ struct TaskInformation {
         char *data = &(ba.data())[dpos];
         dpos = 4;
         quint32 op = *(data);
+        idtask = *(&data[dpos]);
+        dpos +=4;
         QByteArray part;
         part.clear();
         part.append(&data[dpos], op);
